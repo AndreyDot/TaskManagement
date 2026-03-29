@@ -1,6 +1,8 @@
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using TaskManagement.Application.Common.Behaviors;
 using TaskManagement.Application.Features.Tasks.Create;
 using TaskManagement.Application.Mappings;
 
@@ -16,7 +18,8 @@ namespace TaskManagement.WebAPI
             // Add services to the container.
             builder.Services.AddAutoMapper(typeof(TaskProfile).Assembly);
             builder.Services.AddMediatR(typeof(CreateTaskCommand).Assembly);
-
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskValidator>();
+            builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
