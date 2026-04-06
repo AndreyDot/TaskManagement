@@ -1,10 +1,14 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Common.Behaviors;
 using TaskManagement.Application.Features.Tasks.Create;
+using TaskManagement.Application.Interfaces.Tasks;
 using TaskManagement.Application.Mappings;
+using TaskManagement.Infrastructure.Persistence;
+using TaskManagement.Infrastructure.Repositories;
 
 
 namespace TaskManagement.WebAPI
@@ -20,6 +24,9 @@ namespace TaskManagement.WebAPI
             builder.Services.AddMediatR(typeof(CreateTaskCommand).Assembly);
             builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskValidator>();
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
