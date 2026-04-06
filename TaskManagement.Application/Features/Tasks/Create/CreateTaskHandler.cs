@@ -6,11 +6,10 @@ using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Application.Features.Tasks.Create
 {
-    public class CreateTaskHandler: IRequestHandler<CreateTaskCommand, TaskDto>
+    public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, TaskDto>
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IMapper _mapper;
-
 
         public CreateTaskHandler(ITaskRepository taskRepository, IMapper mapper)
         {
@@ -21,7 +20,6 @@ namespace TaskManagement.Application.Features.Tasks.Create
         public async Task<TaskDto> Handle(CreateTaskCommand command, CancellationToken cancellationToken)
         {
             var taskItem = _mapper.Map<TaskItem>(command.TaskData);
-
 
             var createdTask = await _taskRepository.AddAsync(taskItem);
 
