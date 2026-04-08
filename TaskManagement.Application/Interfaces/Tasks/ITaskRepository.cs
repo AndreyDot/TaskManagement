@@ -13,5 +13,7 @@ namespace TaskManagement.Application.Interfaces.Tasks
 
         Task DeleteAsync(TaskItem task);
 
+        Task UpdateAsync(TaskItem task);
+
     }
 }

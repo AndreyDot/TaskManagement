@@ -41,5 +41,11 @@ namespace TaskManagement.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(TaskItem task)
+        {
+            _context.TaskItems.Update(task);
+            await _context.SaveChangesAsync();
+        }
     }
 }
