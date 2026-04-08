@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Features.Tasks.Create;
 using TaskManagement.Application.Features.Tasks.DTOs;
+using TaskManagement.Application.Features.Tasks.GetAll;
 
 namespace TaskManagement.WebAPI.Controllers
 {
@@ -17,11 +18,18 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TaskDto>> CreateTask([FromBody] CreateTaskDto dto)
+        public async Task<ActionResult<TaskDto>> Create([FromBody] CreateTaskDto dto)
         {
             CreateTaskCommand command = new CreateTaskCommand(dto);
 
             var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<TaskDto>>> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllTasksQuery());
 
             return Ok(result);
         }
