@@ -1,4 +1,5 @@
-﻿using TaskManagement.Application.Interfaces.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManagement.Application.Interfaces.Tasks;
 using TaskManagement.Domain.Entities;
 using TaskManagement.Infrastructure.Persistence;
 
@@ -20,6 +21,11 @@ namespace TaskManagement.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return task;
+        }
+
+        public async Task<List<TaskItem>> GetAllAsync()
+        {
+            return await _context.TaskItems.ToListAsync();
         }
     }
 }
