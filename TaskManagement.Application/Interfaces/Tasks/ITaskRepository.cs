@@ -9,5 +9,7 @@ namespace TaskManagement.Application.Interfaces.Tasks
 
         Task<List<TaskItem>> GetAllAsync();
 
+        Task<TaskItem?> GetByIdAsync(Guid id);
+
     }
 }

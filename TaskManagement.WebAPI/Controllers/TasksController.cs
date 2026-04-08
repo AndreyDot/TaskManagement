@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Features.Tasks.Create;
 using TaskManagement.Application.Features.Tasks.DTOs;
 using TaskManagement.Application.Features.Tasks.GetAll;
+using TaskManagement.Application.Features.Tasks.GetById;
 
 namespace TaskManagement.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TasksController: ControllerBase
+    public class TasksController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -30,6 +31,14 @@ namespace TaskManagement.WebAPI.Controllers
         public async Task<ActionResult<List<TaskDto>>> GetAll()
         {
             var result = await _mediator.Send(new GetAllTasksQuery());
+
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TaskDto>> GetById(Guid id)
+        {
+            var result = await _mediator.Send(new GetTaskByIdQuery(id));
 
             return Ok(result);
         }

@@ -27,5 +27,12 @@ namespace TaskManagement.Infrastructure.Repositories
         {
             return await _context.TaskItems.ToListAsync();
         }
+
+        public async Task<TaskItem?> GetByIdAsync(Guid id)
+        {
+            return await _context.TaskItems
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
