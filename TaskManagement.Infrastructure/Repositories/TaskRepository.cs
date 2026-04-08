@@ -34,5 +34,12 @@ namespace TaskManagement.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task DeleteAsync(TaskItem task)
+        {
+            _context.TaskItems.Remove(task);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
