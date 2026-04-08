@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Features.Tasks.Create;
+using TaskManagement.Application.Features.Tasks.Delete;
 using TaskManagement.Application.Features.Tasks.DTOs;
 using TaskManagement.Application.Features.Tasks.GetAll;
 using TaskManagement.Application.Features.Tasks.GetById;
@@ -41,6 +42,24 @@ namespace TaskManagement.WebAPI.Controllers
             var result = await _mediator.Send(new GetTaskByIdQuery(id));
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+
+                DeleteTaskCommand command = new DeleteTaskCommand(id);
+
+                await _mediator.Send(command);
+
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

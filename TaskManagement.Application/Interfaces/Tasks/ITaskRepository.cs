@@ -11,5 +11,7 @@ namespace TaskManagement.Application.Interfaces.Tasks
 
         Task<TaskItem?> GetByIdAsync(Guid id);
 
+        Task DeleteAsync(TaskItem task);
+
     }
 }
