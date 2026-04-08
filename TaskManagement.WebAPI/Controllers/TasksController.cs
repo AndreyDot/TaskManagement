@@ -5,6 +5,7 @@ using TaskManagement.Application.Features.Tasks.Delete;
 using TaskManagement.Application.Features.Tasks.DTOs;
 using TaskManagement.Application.Features.Tasks.GetAll;
 using TaskManagement.Application.Features.Tasks.GetById;
+using TaskManagement.Application.Features.Tasks.Update;
 
 namespace TaskManagement.WebAPI.Controllers
 {
@@ -60,6 +61,16 @@ namespace TaskManagement.WebAPI.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TaskDto>> Update([FromRoute]Guid id, [FromBody]UpdateTaskDto dto)
+        {
+            var command = new UpdateTaskCommand(id, dto);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
         }
     }
 }
