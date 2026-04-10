@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskManagement.Domain.Entities;
-using TaskManagement.Infrastructure.Identity;
 
 namespace TaskManagement.Infrastructure.Persistence
 {
@@ -12,7 +11,6 @@ namespace TaskManagement.Infrastructure.Persistence
         {
             
         }
-
         public DbSet<TaskItem> TaskItems { get; set; }
 
     }
