@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Features.Auth.DTOs;
+using TaskManagement.Application.Features.Auth.Login;
 using TaskManagement.Application.Features.Auth.Register;
 
 namespace TaskManagement.WebAPI.Controllers
@@ -26,5 +27,14 @@ namespace TaskManagement.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto dto)
+        {
+            var command = new LoginCommand(dto);
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
     }
 }
