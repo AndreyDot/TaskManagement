@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Features.Tasks.Create;
 using TaskManagement.Application.Features.Tasks.Delete;
@@ -9,6 +10,7 @@ using TaskManagement.Application.Features.Tasks.Update;
 
 namespace TaskManagement.WebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TasksController : ControllerBase
