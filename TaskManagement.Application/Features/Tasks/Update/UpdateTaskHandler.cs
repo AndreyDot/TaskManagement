@@ -18,7 +18,7 @@ namespace TaskManagement.Application.Features.Tasks.Update
 
         public async Task<TaskDto> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _taskRepository.GetByIdAsync(request.Id);
+            var task = await _taskRepository.GetByIdAsync(request.Id, request.UserId);
 
             if (task == null) 
             {

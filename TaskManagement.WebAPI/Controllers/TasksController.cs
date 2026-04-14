@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TaskManagement.Application.Features.Tasks.Create;
 using TaskManagement.Application.Features.Tasks.Delete;
 using TaskManagement.Application.Features.Tasks.DTOs;
@@ -23,18 +24,23 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TaskDto>> Create([FromBody] CreateTaskDto dto)
+        public async Task<ActionResult<TaskDto>> Create(CreateTaskDto dto)
         {
-            CreateTaskCommand command = new CreateTaskCommand(dto);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var command = new CreateTaskCommand(dto, userId);
 
             var result = await _mediator.Send(command);
 
             return Ok(result);
         }
+
         [HttpGet]
         public async Task<ActionResult<List<TaskDto>>> GetAll()
         {
-            var result = await _mediator.Send(new GetAllTasksQuery());
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var result = await _mediator.Send(new GetAllTasksQuery(userId));
 
             return Ok(result);
         }
@@ -42,7 +48,9 @@ namespace TaskManagement.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TaskDto>> GetById(Guid id)
         {
-            var result = await _mediator.Send(new GetTaskByIdQuery(id));
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var result = await _mediator.Send(new GetTaskByIdQuery(id, userId));
 
             return Ok(result);
         }
@@ -50,25 +58,19 @@ namespace TaskManagement.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                DeleteTaskCommand command = new DeleteTaskCommand(id);
+            await _mediator.Send(new DeleteTaskCommand(id, userId));
 
-                await _mediator.Send(command);
-
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            return NoContent();
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<TaskDto>> Update([FromRoute]Guid id, [FromBody]UpdateTaskDto dto)
         {
-            var command = new UpdateTaskCommand(id, dto);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var command = new UpdateTaskCommand(id, dto, userId);
 
             var result = await _mediator.Send(command);
 

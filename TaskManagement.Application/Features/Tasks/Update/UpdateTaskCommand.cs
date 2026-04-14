@@ -9,10 +9,13 @@ namespace TaskManagement.Application.Features.Tasks.Update
 
         public UpdateTaskDto UpdateData { get; set; }
 
-        public UpdateTaskCommand(Guid id, UpdateTaskDto updateData)
+        public string UserId { get; }
+
+        public UpdateTaskCommand(Guid id, UpdateTaskDto updateData, string userId)
         {
             Id = id;
             UpdateData = updateData;
+            UserId = userId;
         }
 
     }
