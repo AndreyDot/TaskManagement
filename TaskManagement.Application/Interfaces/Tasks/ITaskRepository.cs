@@ -1,5 +1,4 @@
-﻿using TaskManagement.Application.Features.Tasks.DTOs;
-using TaskManagement.Domain.Entities;
+﻿using TaskManagement.Domain.Entities;
 
 namespace TaskManagement.Application.Interfaces.Tasks
 {
@@ -9,7 +8,9 @@ namespace TaskManagement.Application.Interfaces.Tasks
 
         Task<List<TaskItem>> GetAllAsync();
 
-        Task<TaskItem?> GetByIdAsync(Guid id);
+        Task<List<TaskItem>> GetByUserIdAsync(string userId);
+
+        Task<TaskItem?> GetByIdAsync(Guid id, string userId);
 
         Task DeleteAsync(TaskItem task);
 

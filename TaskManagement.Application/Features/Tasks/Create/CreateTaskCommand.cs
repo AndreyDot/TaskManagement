@@ -7,9 +7,12 @@ namespace TaskManagement.Application.Features.Tasks.Create
     {
         public CreateTaskDto TaskData { get; }
 
-        public CreateTaskCommand(CreateTaskDto task)
+        public string UserId { get; }
+
+        public CreateTaskCommand(CreateTaskDto task, string userId)
         {
             TaskData = task;
+            UserId = userId;
         }
     }
 }

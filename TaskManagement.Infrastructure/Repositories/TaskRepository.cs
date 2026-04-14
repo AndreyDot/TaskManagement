@@ -28,11 +28,17 @@ namespace TaskManagement.Infrastructure.Repositories
             return await _context.TaskItems.ToListAsync();
         }
 
-        public async Task<TaskItem?> GetByIdAsync(Guid id)
+        public async Task<List<TaskItem>> GetByUserIdAsync(string userId)
         {
             return await _context.TaskItems
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
+        }
+
+        public async Task<TaskItem?> GetByIdAsync(Guid id, string userId)
+        {
+            return await _context.TaskItems
+                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
         }
 
         public async Task DeleteAsync(TaskItem task)

@@ -18,7 +18,7 @@ namespace TaskManagement.Application.Features.Tasks.GetAll
 
         public async Task<List<TaskDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await _taskRepository.GetAllAsync();
+            var tasks = await _taskRepository.GetByUserIdAsync(request.UserId);
 
             return _mapper.Map<List<TaskDto>>(tasks);
         }

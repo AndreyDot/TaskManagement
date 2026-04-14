@@ -21,6 +21,7 @@ namespace TaskManagement.Application.Features.Tasks.Create
         {
             var taskItem = _mapper.Map<TaskItem>(command.TaskData);
 
+            taskItem.UserId = command.UserId;
             taskItem.CreatedAt = DateTime.UtcNow;
 
             var createdTask = await _taskRepository.AddAsync(taskItem);
