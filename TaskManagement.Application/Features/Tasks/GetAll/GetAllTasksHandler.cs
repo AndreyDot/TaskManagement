@@ -18,9 +18,18 @@ namespace TaskManagement.Application.Features.Tasks.GetAll
 
         public async Task<List<TaskDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
         {
-            var tasks = await _taskRepository.GetByUserIdAsync(request.UserId);
+            var tasks = await _taskRepository.GetAllAsync();
 
-            return _mapper.Map<List<TaskDto>>(tasks);
+            if (request.IsAdmin)
+            {
+                return _mapper.Map<List<TaskDto>>(tasks);
+            }
+
+            var userTasks = tasks
+                .Where(x => x.UserId == request.UserId)
+                .ToList();
+
+            return _mapper.Map<List<TaskDto>>(userTasks);
         }
 
     }

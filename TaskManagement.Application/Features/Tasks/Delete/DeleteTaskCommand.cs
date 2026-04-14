@@ -6,10 +6,12 @@ namespace TaskManagement.Application.Features.Tasks.Delete
     {
         public Guid Id { get; set; }
         public string UserId { get; }
-        public DeleteTaskCommand(Guid id, string userId)
+        public bool IsAdmin { get; }
+        public DeleteTaskCommand(Guid id, string userId, bool isAdmin)
         {
             Id = id;
             UserId = userId;
+            IsAdmin = isAdmin;
         }
     }
 }

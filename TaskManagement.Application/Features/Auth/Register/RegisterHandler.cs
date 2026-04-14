@@ -34,7 +34,7 @@ namespace TaskManagement.Application.Features.Auth.Register
                 throw new Exception(errors);
             }
 
-            var token = _jwtService.GenerateToken(user);
+            var token = await _jwtService.GenerateToken(user);
 
             return new AuthResponseDto 
             { 
