@@ -18,12 +18,13 @@ namespace TaskManagement.Application.Features.Tasks.GetById
 
         public async Task<TaskDto> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
         {
-            var task = await _taskRepository.GetByIdAsync(request.Id, request.UserId);
+            var task = await _taskRepository.GetByIdAsync(request.Id);
 
             if (task == null)
-            {
-                throw new KeyNotFoundException("Task not found");
-            }
+                throw new KeyNotFoundException();
+
+            if (!request.IsAdmin && task.UserId != request.UserId)
+                throw new UnauthorizedAccessException();
 
             return _mapper.Map<TaskDto>(task);
         }

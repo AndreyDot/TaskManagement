@@ -17,9 +17,7 @@ namespace TaskManagement.Infrastructure.Repositories
         public async Task<TaskItem> AddAsync(TaskItem task)
         {
             _context.TaskItems.Add(task);
-
             await _context.SaveChangesAsync();
-
             return task;
         }
 
@@ -28,23 +26,15 @@ namespace TaskManagement.Infrastructure.Repositories
             return await _context.TaskItems.ToListAsync();
         }
 
-        public async Task<List<TaskItem>> GetByUserIdAsync(string userId)
+        public async Task<TaskItem?> GetByIdAsync(Guid id)
         {
             return await _context.TaskItems
-                .Where(x => x.UserId == userId)
-                .ToListAsync();
-        }
-
-        public async Task<TaskItem?> GetByIdAsync(Guid id, string userId)
-        {
-            return await _context.TaskItems
-                .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task DeleteAsync(TaskItem task)
         {
             _context.TaskItems.Remove(task);
-
             await _context.SaveChangesAsync();
         }
 

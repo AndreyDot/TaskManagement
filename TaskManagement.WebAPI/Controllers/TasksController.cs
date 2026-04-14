@@ -40,7 +40,9 @@ namespace TaskManagement.WebAPI.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var result = await _mediator.Send(new GetAllTasksQuery(userId));
+            var isAdmin = User.IsInRole("Admin");
+
+            var result = await _mediator.Send(new GetAllTasksQuery(userId, isAdmin));
 
             return Ok(result);
         }
@@ -50,17 +52,22 @@ namespace TaskManagement.WebAPI.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var result = await _mediator.Send(new GetTaskByIdQuery(id, userId));
+            var isAdmin = User.IsInRole("Admin");
+
+            var result = await _mediator.Send(new GetTaskByIdQuery(id, userId, isAdmin));
 
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            await _mediator.Send(new DeleteTaskCommand(id, userId));
+            var isAdmin = User.IsInRole("Admin");
+
+            await _mediator.Send(new DeleteTaskCommand(id, userId, isAdmin));
 
             return NoContent();
         }
@@ -70,7 +77,9 @@ namespace TaskManagement.WebAPI.Controllers
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            var command = new UpdateTaskCommand(id, dto, userId);
+            var isAdmin = User.IsInRole("Admin");
+
+            var command = new UpdateTaskCommand(id, dto, userId, isAdmin);
 
             var result = await _mediator.Send(command);
 

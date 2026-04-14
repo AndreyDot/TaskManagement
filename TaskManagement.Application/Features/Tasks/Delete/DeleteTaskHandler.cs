@@ -14,7 +14,7 @@ namespace TaskManagement.Application.Features.Tasks.Delete
 
         public async Task<Unit> Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _taskRepository.GetByIdAsync(request.Id, request.UserId);
+            var task = await _taskRepository.GetByIdAsync(request.Id);
 
             if (task == null)
             {

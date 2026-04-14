@@ -7,11 +7,13 @@ namespace TaskManagement.Application.Features.Tasks.GetById
     {
         public Guid Id { get; set; }
         public string UserId { get; }
+        public bool IsAdmin { get; }
 
-        public GetTaskByIdQuery(Guid id, string userId)
+        public GetTaskByIdQuery(Guid id, string userId, bool isAdmin)
         {
             Id = id;
             UserId = userId;
+            IsAdmin = isAdmin;
         }
     }
 }

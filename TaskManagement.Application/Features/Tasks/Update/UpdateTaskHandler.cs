@@ -18,11 +18,16 @@ namespace TaskManagement.Application.Features.Tasks.Update
 
         public async Task<TaskDto> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _taskRepository.GetByIdAsync(request.Id, request.UserId);
+            var task = await _taskRepository.GetByIdAsync(request.Id);
 
-            if (task == null) 
+            if (task == null)
             {
                 throw new KeyNotFoundException("Task not found");
+            }
+
+            if (!request.IsAdmin && task.UserId != request.UserId)
+            {
+                throw new UnauthorizedAccessException("You do not have access to this task");
             }
 
             task.Title = request.UpdateData.Title;
@@ -32,9 +37,7 @@ namespace TaskManagement.Application.Features.Tasks.Update
 
             await _taskRepository.UpdateAsync(task);
 
-            var taskDto = _mapper.Map<TaskDto>(task);
-
-            return taskDto;
+            return _mapper.Map<TaskDto>(task);
 
         }
     }

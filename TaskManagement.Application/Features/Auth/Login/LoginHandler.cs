@@ -33,7 +33,7 @@ namespace TaskManagement.Application.Features.Auth.Login
                 throw new Exception("Invalid credentials");
             }
 
-            var token = _jwtService.GenerateToken(findUser);
+            var token = await _jwtService.GenerateToken(findUser);
 
             return new AuthResponseDto
             {
