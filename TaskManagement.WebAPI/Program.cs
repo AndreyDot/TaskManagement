@@ -17,6 +17,7 @@ using TaskManagement.Application.Interfaces;
 using TaskManagement.Infrastructure.Services;
 using TaskManagement.Domain.Entities;
 using Microsoft.OpenApi.Models;
+using TaskManagement.WebAPI.Middlewares;
 
 
 namespace TaskManagement.WebAPI
@@ -157,6 +158,8 @@ namespace TaskManagement.WebAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();
